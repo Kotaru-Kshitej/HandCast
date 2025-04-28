@@ -4,12 +4,12 @@ import pyautogui
 import pygetwindow as gw
 import time
 
-# Initialize MediaPipe Hands
+
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7)
 mp_drawing = mp.solutions.drawing_utils
 
-# Detect open palm
+
 def is_open_palm(hand_landmarks):
     fingers = []
     for tip_id, mcp_id in [
@@ -30,7 +30,7 @@ def is_open_palm(hand_landmarks):
         return True
     return False
 
-# Detect Victory Sign (2 fingers)
+
 def is_victory(hand_landmarks):
     index_tip = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
     index_mcp = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_MCP]
@@ -45,7 +45,7 @@ def is_victory(hand_landmarks):
             ring_tip.y > hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_MCP].y and
             pinky_tip.y > hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_MCP].y)
 
-# Detect One Finger Up (Index)
+
 def is_one_finger_up(hand_landmarks):
     index_tip = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
     index_mcp = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_MCP]
@@ -59,7 +59,7 @@ def is_one_finger_up(hand_landmarks):
             ring_tip.y > hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_MCP].y and
             pinky_tip.y > hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_MCP].y)
 
-# Detect active window and return platform
+
 def get_active_platform():
     active_window = gw.getActiveWindow()
     if active_window:
@@ -72,7 +72,7 @@ def get_active_platform():
             return "prime"
     return None
 
-# Send appropriate key based on platform and action
+
 def control_video(platform, action):
     if platform == "youtube" or platform == "prime":
         if action == "play_pause":
@@ -89,14 +89,14 @@ def control_video(platform, action):
         elif action == "backward":
             pyautogui.press('left')
 
-# Main Program
+
 cap = cv2.VideoCapture(0)
 
 if not cap.isOpened():
     print("Error: Could not open webcam.")
     exit()
 
-gesture_cooldown = 1.5  # seconds
+gesture_cooldown = 1.5  
 last_gesture_time = time.time()
 
 while True:
